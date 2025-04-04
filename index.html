@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harry ❤️ Luna - 1 Year Together</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+  <!-- Flying hearts -->
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+  <div class="heart"></div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" autoplay loop muted>
+    <source src="music/my-song.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Theme Toggle -->
+  <button id="themeToggleBtn" title="Toggle Night Mode">🌙</button>
+
+  <!-- Header -->
+  <header>
+    <h1>Harry ❤️ Luna</h1>
+    <h2>Celebrating One Magical Year Together</h2>
+  </header>
+
+  <!-- Main Content -->
+  <section>
+    <h3 class="animated">Time We've been together ⏰</h3>
+    <div class="love-counter">
+      <div class="counter-box"><div id="counter-days" class="counter-number">000</div><div class="counter-label">Days</div></div>
+      <div class="counter-box"><div id="counter-hours" class="counter-number">00</div><div class="counter-label">Hours</div></div>
+      <div class="counter-box"><div id="counter-minutes" class="counter-number">00</div><div class="counter-label">Minutes</div></div>
+      <div class="counter-box"><div id="counter-seconds" class="counter-number">00</div><div class="counter-label">Seconds</div></div>
+      <div class="counter-heart">💖</div>
+    </div>
+
+    <h3 class="animated">Photo Memories 📸</h3>
+    <div class="photo-row">
+      <img src="photos/photo1.jpg" alt="Photo 1" />
+      <img src="photos/photo2.jpg" alt="Photo 2" />
+      <img src="photos/photo3.jpg" alt="Photo 3" />
+    </div>
+
+    <h3 class="animated">Our Moments in Motion 🎬</h3>
+    <div class="video-container">
+      <video controls poster="photos/video-cover2.jpg">
+        <source src="videos/video2.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <h3 class="animated">Looking Ahead</h3>
+    <p>
+      Here’s to many more anniversaries, milestones, and memories to come. I can't wait to keep
+      growing together, supporting each other, and writing the next chapters of our story.
+    </p>
+
+    <p class="final-note">I love you, Luna. Always. ❤️</p>
+
+    <!-- Hidden Love Letter -->
+    <button id="revealLetterBtn">💌 Read My Secret Letter</button>
+    <div class="love-letter" id="loveLetter">
+      Luna, you've been my favorite chapter. Every moment with you is a story I want to reread forever. Your smile is my sunrise, and your hug is my home. Here's to every second with you — past, present, and future. ❤️
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>Made with love by Harry 💕 — April 2025</footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" title="Back to top">❤️</button>
+
+  <!-- Toggle Music Button -->
+  <button id="toggleMusicBtn" title="Toggle Music">
+    <i class="fa-solid fa-volume-high"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    const toggleMusicBtn = document.getElementById('toggleMusicBtn');
+    const musicIcon = toggleMusicBtn.querySelector('i');
+    const revealBtn = document.getElementById("revealLetterBtn");
+    const loveLetter = document.getElementById("loveLetter");
+    const themeToggle = document.getElementById("themeToggleBtn");
+
+    // Confetti + music on first click
+    window.addEventListener('click', () => {
+      bgMusic.muted = false;
+      bgMusic.volume = 0.6;
+      bgMusic.play().catch(err => console.error("Audio play error:", err));
+      confetti({ particleCount: 40, spread: 70, origin: { y: 0.6 } });
+    }, { once: true });
+
+    // Scroll to top logic
+    window.onscroll = () => {
+      scrollBtn.style.display = document.documentElement.scrollTop > 100 ? "block" : "none";
+    };
+    scrollBtn.onclick = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // Toggle Music
+    toggleMusicBtn.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicIcon.classList.remove("fa-volume-xmark");
+        musicIcon.classList.add("fa-volume-high");
+      } else {
+        bgMusic.pause();
+        musicIcon.classList.remove("fa-volume-high");
+        musicIcon.classList.add("fa-volume-xmark");
+      }
+    });
+
+    // Live Counter
+    function updateLoveCounter() {
+      const now = new Date();
+      const start = new Date("2024-04-01T00:00:00");
+      const diff = now - start;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("counter-days").textContent = String(days).padStart(3, "0");
+      document.getElementById("counter-hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("counter-minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("counter-seconds").textContent = String(seconds).padStart(2, "0");
+    }
+    updateLoveCounter();
+    setInterval(updateLoveCounter, 1000);
+
+    // Reveal Love Letter
+    revealBtn.addEventListener("click", () => {
+      loveLetter.style.display = "block";
+      revealBtn.style.display = "none";
+    });
+
+    // Theme toggle
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("night-mode");
+      themeToggle.textContent = document.body.classList.contains("night-mode") ? "☀️" : "🌙";
+    });
+  </script>
+</body>
+</html>
